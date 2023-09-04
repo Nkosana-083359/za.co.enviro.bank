@@ -33,6 +33,8 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "accNumber")
     private Account accounts;
+
+    private Boolean active=true;
 //
 //    CREATE TABLE IF NOT EXISTS bank_accounts (
 //            acc_num UUID PRIMARY KEY DEFAULT gen_random_uuid(),

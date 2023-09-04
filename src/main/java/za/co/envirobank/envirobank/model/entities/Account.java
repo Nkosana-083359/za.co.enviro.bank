@@ -8,6 +8,7 @@ import lombok.Setter;
 import za.co.envirobank.envirobank.enums.AccountType;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +26,9 @@ public class Account {
     @Column(name = "acc_balance")
     private BigDecimal balance;
 
-    private Integer customerNum;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "accountTypeId")
