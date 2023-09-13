@@ -1,9 +1,12 @@
-package za.co.envirobank.envirobank.model;
+package za.co.envirobank.envirobank.transfereobject;
 
+
+import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 
 public class WithdrawRequest {
+    @NotEmpty
    private String accNum;
 
     public String getAccNum() {
@@ -13,7 +16,7 @@ public class WithdrawRequest {
     public void setAccNum(String accNum) {
         this.accNum = accNum;
     }
-
+    @NotEmpty
     //add account number
     private BigDecimal amountToWithdraw;
 

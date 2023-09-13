@@ -1,6 +1,12 @@
 package za.co.envirobank.envirobank.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import za.co.envirobank.envirobank.enums.TransactionType;
 import za.co.envirobank.envirobank.exceptions.EntityNotFoundException;
@@ -12,25 +18,32 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import za.co.envirobank.envirobank.model.entities.AccountTypeLookup;
+import za.co.envirobank.envirobank.model.entities.Customer;
 import za.co.envirobank.envirobank.model.entities.Transaction;
 import za.co.envirobank.envirobank.respository.AccountRepository;
 import za.co.envirobank.envirobank.respository.AccountTypeRepository;
 import za.co.envirobank.envirobank.respository.TransactionRepository;
 import za.co.envirobank.envirobank.service.AccountService;
+import za.co.envirobank.envirobank.transfereobject.AccountsResponse;
 
 @Service
-@RequiredArgsConstructor
-public class WithdrawalService implements AccountService {
-    private final AccountRepository accountRepository;
-    private final TransactionRepository transactionRepository;
 
-    private final AccountTypeRepository accountTypeRepository;
+public class AccountServiceImpl implements AccountService {
+    private ModelMapper mapper;
+    @Autowired
+    private  AccountRepository accountRepository;
+    @Autowired
+    private  TransactionRepository transactionRepository;
+    @Autowired
+
+    private  AccountTypeRepository accountTypeRepository;
 
     BigDecimal balance = BigDecimal.ZERO;
     BigDecimal difference;
 
     @Override
-    public void withdraw(String accountNum, BigDecimal amountToWithdraw) throws WithdrawalUnavailableException, InsufficientBalanceException {
+    public void withdraw(String accountNum, BigDecimal amountToWithdraw)
+            throws WithdrawalUnavailableException, InsufficientBalanceException {
         UUID accountId = UUID.fromString(accountNum);
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
 
@@ -42,7 +55,38 @@ public class WithdrawalService implements AccountService {
         }
     }
 
-    private void handleWithdrawal(Account account, BigDecimal amountToWithdraw) throws WithdrawalUnavailableException, InsufficientBalanceException {
+    @Override
+    public AccountsResponse findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                :Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo,pageSize, sort);
+
+        Page<Account> accounts = accountRepository.findAll(pageable);
+
+        List<Account> content = accounts.getContent();
+        //List<Account> content = accountList;
+        //accountList.stream().toList().stream().map(account -> )
+        //remove the transfer object
+        AccountsResponse accountsResponse = new AccountsResponse();
+        accountsResponse.setContent(content);
+        accountsResponse.setPageNo(accounts.getNumber());
+        accountsResponse.getPageSize();
+        accountsResponse.setTotalElements(accounts.getTotalElements());
+        accountsResponse.setTotalPages(accounts.getTotalPages());
+        accountsResponse.setLast(accounts.isLast());
+
+        return accountsResponse;
+    }
+
+    @Override
+    public List<Account> getAccountByCustomerId(Customer customerId) {
+        List<Account> account = accountRepository.findAccountByCustomer(customerId);
+        return account;
+    }
+
+    private void handleWithdrawal(Account account, BigDecimal amountToWithdraw)
+            throws WithdrawalUnavailableException, InsufficientBalanceException {
         //
         AccountTypeLookup typeLookup = account.getAccountTypeLookup();
 
@@ -58,7 +102,8 @@ public class WithdrawalService implements AccountService {
         String accountTypeString = accountType.getAccountType();
 
 
-        if (isCurrentAccountWithdrawalValid(amountToWithdraw, currentBalance, overdraft,accountTypeString) || isSavingAccountWithdrawalValid(amountToWithdraw, currentBalance, minimumRequired,accountTypeString)) {
+        if (isCurrentAccountWithdrawalValid(amountToWithdraw, currentBalance, overdraft,accountTypeString) ||
+                isSavingAccountWithdrawalValid(amountToWithdraw, currentBalance, minimumRequired,accountTypeString)) {
             BigDecimal newBalance = currentBalance.subtract(amountToWithdraw);
             account.setBalance(newBalance);
             accountRepository.save(account);
@@ -76,13 +121,15 @@ public class WithdrawalService implements AccountService {
     }
 
 
-    private boolean isSavingAccountWithdrawalValid(BigDecimal amountToWithdraw, BigDecimal currentBalance, BigDecimal minimumRequired,String accountTypeString) {
+    private boolean isSavingAccountWithdrawalValid(BigDecimal amountToWithdraw, BigDecimal currentBalance,
+                                                   BigDecimal minimumRequired,String accountTypeString) {
         BigDecimal newBalance = currentBalance.subtract(amountToWithdraw);
         return amountToWithdraw.compareTo(currentBalance) <= 0 &&
                 newBalance.compareTo(minimumRequired) >= 0 && accountTypeString.equals("Savings");
     }
 
-    private boolean isCurrentAccountWithdrawalValid(BigDecimal amountToWithdraw, BigDecimal currentBalance, BigDecimal overdraft,String accountTypeString) {
+    private boolean isCurrentAccountWithdrawalValid(BigDecimal amountToWithdraw, BigDecimal currentBalance,
+                                                    BigDecimal overdraft,String accountTypeString) {
         BigDecimal maxWithdrawal = currentBalance.add(overdraft);
        //BigDecimal withDrawableAmount = currentBalance.subtract(amountToWithdraw);
 
@@ -97,7 +144,7 @@ public class WithdrawalService implements AccountService {
             transactionRepository.save(transaction);
 
         } else{
-            //throw new EntityNotFoundException("Transaction no found.");
+            throw new EntityNotFoundException("Transaction no found.");
         }
     }
 

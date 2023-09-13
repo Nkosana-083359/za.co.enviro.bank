@@ -11,11 +11,12 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           lob:
             non_contextual_creation: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/eb_db
-    username: enviro_db_user
-    password: localpasswd
+    url: jdbc:postgresql://localhost:5432/enviro_database
+    username: enviro_bank_database_user
+    password: passwd

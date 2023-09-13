@@ -1,3 +1,3 @@
-CREATE DATABASE eb_db
-       WITH OWNER = enviro_db_user
+CREATE DATABASE enviro_database
+       WITH OWNER = enviro_bank_database_user
        connection LIMIT = -1;

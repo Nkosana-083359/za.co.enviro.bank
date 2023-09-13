@@ -1,3 +1,3 @@
-CREATE ROLE enviro_db_user
-WITH LOGIN ENCRYPTED PASSWORD 'localpasswd'
+CREATE ROLE enviro_bank_database_user
+WITH LOGIN ENCRYPTED PASSWORD 'passwd'
 VALID UNTIL 'infinity';

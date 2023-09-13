@@ -26,8 +26,8 @@ public class Account {
     @Column(name = "acc_balance")
     private BigDecimal balance;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @ManyToOne( fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id",referencedColumnName = "id")
     private Customer customer;
 
     @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
