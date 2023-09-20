@@ -1,0 +1,30 @@
+server:
+  port: 9005
+
+spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/enviro_database
+    username: enviro_bank_database_user
+    password: passwd
+
+edn:
+  jwtSecret: ByCoZ1VLVlASqsOgZ9a1vfN3jl+P0Kt152JBTcC41T4=
+
+
+
+
+
