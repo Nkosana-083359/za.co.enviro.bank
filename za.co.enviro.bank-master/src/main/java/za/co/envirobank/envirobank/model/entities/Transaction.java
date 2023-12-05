@@ -31,28 +31,16 @@ public class Transaction {
 
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "accNumber")
+    @JoinColumn(name = "sourceAccNumber")
     private Account accounts;
 
-    private Boolean active=true;
-//
-//    CREATE TABLE IF NOT EXISTS bank_accounts (
-//            acc_num UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-//    acc_balance NUMERIC ,
-//    acc_type VARCHAR(50) NOT NULL
-//);
-//
-//    CREATE TABLE IF NOT EXISTS bank_transactions (
-//            trans_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-//    trans_type NUMERIC ,
-//    reference VARCHAR(50),
-//    acc_number UUID,
-//    CONSTRAINT foreign_key_acc_number FOREIGN KEY(acc_number) REFERENCES bank_accounts(acc_num) ON UPDATE CASCADE ON DELETE SET NULL
-//);
-//, referencedColumnName = "acc_num"
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "news_version_id", referencedColumnName = "news_version_id")
-//    private NewsVersionEntity newsVersion;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "destinationaccnumber")
+    private Account destinationAccNumber;
 
+    @Column(name = "creation_date")
+    private OffsetDateTime creationDate;
+
+    private Boolean active=true;
 
 }

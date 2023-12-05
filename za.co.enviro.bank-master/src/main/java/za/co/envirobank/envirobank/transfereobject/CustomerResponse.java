@@ -1,12 +1,15 @@
 package za.co.envirobank.envirobank.transfereobject;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class CustomerResponse {
-
-    private String token;
+    private String customerName;
+    private String customerSurname;
+    private String customerEmail;
+    private String customerPhoneNumber;
+    private String customerIdNumber;
+    private String customerUsername;
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,6 +33,9 @@ public abstract class UserEntity {
     private String  idNumber;
     @Column(name = "username", nullable = false)
     private String username;
+    @Column(name = "num_Accounts")
+    private BigInteger numAccounts;
+
     //Role
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",

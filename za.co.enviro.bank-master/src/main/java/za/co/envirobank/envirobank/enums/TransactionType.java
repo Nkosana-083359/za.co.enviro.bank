@@ -2,5 +2,5 @@ package za.co.envirobank.envirobank.enums;
 
 
 public enum TransactionType {
-    Withdrawal ,Deposit
+    Transfer ,Deposit, Withdrawal
 }

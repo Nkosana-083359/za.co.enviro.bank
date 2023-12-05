@@ -15,13 +15,14 @@ public class CustomerRequest {
     @Size(min = 2, message = "Customer name should have at least 2 characters")
     private String name;
     @NotEmpty
-    @Size(min = 2, message = "Customer name should have at least 10 characters")
+    @Size(min = 2, message = "Customer surname should have at least 2 characters")
     private String surname;
 
     @NotNull(message = "ID number is required")
-   // @Pattern(regexp = "\\d{13}",message = "Invalid identity number.")
+    @Pattern(regexp = "\\d{13}",message = "Invalid identity number.")
     private String idNum;
     private String phoneNumber;
+    @Email
     private String email;
     private String username;
 

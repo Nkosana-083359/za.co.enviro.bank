@@ -3,6 +3,7 @@ package za.co.envirobank.envirobank.service.za.id.validator;
 import org.springframework.stereotype.Service;
 import za.co.envirobank.envirobank.enums.Gender;
 import za.co.envirobank.envirobank.enums.Nationality;
+import za.co.envirobank.envirobank.exceptions.InputException;
 import za.co.envirobank.envirobank.service.za.id.validator.IDNumberData;
 import za.co.envirobank.envirobank.service.za.id.validator.Luhn;
 
@@ -53,10 +54,10 @@ public class IDNumberParser
         this.checkBit        = Integer.parseInt(idNumber.substring(12, 13));
     }
 
-    public IDNumberData parse(String idNumber) throws Exception
+    public IDNumberData parse(String idNumber)
     {
         if (idNumber.length() != 13) {
-            throw new Exception("ID Length invalid: ZA ID Number must be 13 digits long");
+            throw new InputException("ID Length invalid: ZA ID Number must be 13 digits long");
         }
 
         this.idNumber = idNumber;

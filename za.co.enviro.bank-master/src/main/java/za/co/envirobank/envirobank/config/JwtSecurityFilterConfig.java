@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import za.co.envirobank.envirobank.service.impl.CustomUserDetailsServices;
+import za.co.envirobank.envirobank.service.impl.CustomUserDetailsServicesImpl;
 import za.co.envirobank.envirobank.utils.JwtSecurityUtil;
 
 
@@ -21,8 +21,8 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @Component
-public class JwtSecurityFilter extends OncePerRequestFilter {
-    private final CustomUserDetailsServices customUserDetailsService;
+public class JwtSecurityFilterConfig extends OncePerRequestFilter {
+    private final CustomUserDetailsServicesImpl customUserDetailsService;
     private final JwtSecurityUtil jwtSecurityUtil;
 
     @Override

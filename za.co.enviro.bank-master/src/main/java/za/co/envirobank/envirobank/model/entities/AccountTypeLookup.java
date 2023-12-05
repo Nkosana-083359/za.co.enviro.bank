@@ -23,13 +23,4 @@ public class AccountTypeLookup {
 
     private BigDecimal overdraftLimit;
 
-
-
-//    CREATE TABLE IF NOT EXISTS account_type_lookup (
-//            acc_num UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-//    account_type VARCHAR(255) NOT NULL,
-//    minimum_balance DECIMAL(10, 2) NOT NULL,
-//    overdraft_limit DECIMAL(10, 2) NOT NULL
-//    );
-
 }

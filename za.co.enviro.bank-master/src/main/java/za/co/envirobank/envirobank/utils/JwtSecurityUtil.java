@@ -35,6 +35,7 @@ public class JwtSecurityUtil {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
 
+
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
@@ -46,7 +47,7 @@ public class JwtSecurityUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 10 +60 * 60 *60))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 *60 * 60))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
     }
 

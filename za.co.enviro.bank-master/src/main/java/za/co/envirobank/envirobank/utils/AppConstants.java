@@ -8,5 +8,7 @@ public class AppConstants {
 
     public static final String DEFAULT_SORT_DIRECTION = "asc";
 
-
+    public static String getPasswordResetUrl(String host, String token) {
+        return host + "/api/users?token=" + token;
+    }
 }

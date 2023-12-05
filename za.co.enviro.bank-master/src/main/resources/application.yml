@@ -1,5 +1,7 @@
 server:
   port: 9005
+#  servlet:
+#    context-path: /api/v1
 
 spring:
   jackson:
@@ -15,7 +17,23 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  mail:
+    host: localhost
+    port: 1025
+    username: hello
+    password: hello
 
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connection-timeout: 5000
+          timeout: 3000
+          write timeout: 5000
   datasource:
     url: jdbc:postgresql://localhost:5432/enviro_database
     username: enviro_bank_database_user
@@ -25,6 +43,7 @@ edn:
   jwtSecret: ByCoZ1VLVlASqsOgZ9a1vfN3jl+P0Kt152JBTcC41T4=
 
 
-
+etalente:
+  host: localhost:4300/
 
 

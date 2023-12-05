@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import za.co.envirobank.envirobank.enums.AccountType;
-
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +23,9 @@ public class Account {
     @Column(name = "acc_balance")
     private BigDecimal balance;
 
+
+    @Column(name = "available_balance")
+    private BigDecimal availableBalance;
     @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id",referencedColumnName = "id")
     private Customer customer;
